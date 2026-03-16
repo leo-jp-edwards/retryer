@@ -2,23 +2,26 @@ from __future__ import annotations
 
 import random
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 from functools import wraps
 from typing import Any, Callable, Optional, Tuple, Type, TypeVar
 
 F = TypeVar("F", bound=Callable[..., Any])
 
+
 class BackoffStrategy(str, Enum):
     FIXED = "fixed"
     LINEAR = "linear"
     EXPONENTIAL = "exponential"
+
 
 @dataclass(frozen=True)
 class RetryState:
     attempt: int
     max_attempts: int
     exception: BaseException
+
 
 @dataclass(frozen=True)
 class RetryConfig:
@@ -77,6 +80,7 @@ class RetryConfig:
 
         return computed_delay
 
+
 def retry(config: RetryConfig) -> Callable[[F], F]:
     def decorator(func: F) -> F:
         @wraps(func)
@@ -94,9 +98,7 @@ def retry(config: RetryConfig) -> Callable[[F], F]:
 
                     delay = config.get_delay(attempt)
                     state = RetryState(
-                        attempt=attempt,
-                        max_attempts=config.max_attempts,
-                        exception=exc
+                        attempt=attempt, max_attempts=config.max_attempts, exception=exc
                     )
 
                     if config.before_retry is not None:
@@ -110,6 +112,6 @@ def retry(config: RetryConfig) -> Callable[[F], F]:
 
             raise RuntimeError("retry failed without capturing an exception")
 
-        return wrapper # type: ignore[return-value]
+        return wrapper  # type: ignore[return-value]
 
     return decorator

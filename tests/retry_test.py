@@ -2,11 +2,15 @@ import pytest
 
 from retryer.retry import BackoffStrategy, RetryConfig, RetryState, retry
 
+
 @pytest.fixture
 def calls() -> dict[str, int]:
     return {"count": 0}
 
-def test_returns_value_without_retry_when_function_succeeds(calls: dict[str, int]) -> None:
+
+def test_returns_value_without_retry_when_function_succeeds(
+    calls: dict[str, int],
+) -> None:
     @retry(RetryConfig())
     def operation() -> str:
         calls["count"] += 1
@@ -102,7 +106,9 @@ def test_before_retry_receives_retry_state_and_delay(calls: dict[str, int]) -> N
     observed = []
 
     def before_retry(state: RetryState, delay: float) -> None:
-        observed.append((state.attempt, state.max_attempts, str(state.exception), delay))
+        observed.append(
+            (state.attempt, state.max_attempts, str(state.exception), delay)
+        )
 
     @retry(
         RetryConfig(
