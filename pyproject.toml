@@ -1,0 +1,16 @@
+[project]
+name = "retryer"
+version = "0.1.0"
+description = "A generic retry decorator implementation"
+authors = [
+    {name = "Leo Edwards",email = "leo@promethean.dev"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
