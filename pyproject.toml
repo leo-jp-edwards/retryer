@@ -2,6 +2,9 @@
 name = "retryer"
 version = "0.1.0"
 description = "A generic retry decorator implementation"
+packages = [
+    { include = "retryer" },
+]
 authors = [
     {name = "Leo Edwards",email = "leo@promethean.dev"}
 ]
@@ -14,3 +17,13 @@ dependencies = [
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-cov (>=7.0.0,<8.0.0)",
+    "black (>=26.3.1,<27.0.0)",
+    "isort (>=8.0.1,<9.0.0)",
+    "flake8 (>=7.3.0,<8.0.0)",
+    "bandit (>=1.9.4,<2.0.0)",
+]
